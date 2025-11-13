@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Env & secrets
+.env
+.venv/
+uv.lock
+
+# Données & sorties
+data/raw/
+data/interim/
+outputs/
+mlruns/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
