@@ -2,6 +2,9 @@
 # 🛠️ FONCTIONS UTILITAIRES POUR L'ÉVALUATION DES MODÈLES
 # ============================================================
 
+import pandas as pd
+import numpy as np
+
 from sklearn.metrics import (
     accuracy_score,
     average_precision_score,
@@ -11,6 +14,45 @@ from sklearn.metrics import (
     f1_score,
     confusion_matrix,
 )
+
+
+def detect_outliers_zscore(df: pd.DataFrame, threshold: float = 3.0):
+    """
+    Détecte les outliers pour toutes les colonnes numériques et fournit un rapport détaillé.
+
+    Returns:
+        outlier_rows : DataFrame des lignes avec au moins un outlier
+        outlier_details : DataFrame avec colonnes numériques, booléen outlier et Z-score
+        summary : dict avec nombre et % d'outliers par colonne
+    """
+    numeric_cols = df.select_dtypes(include=np.number).columns
+    if len(numeric_cols) == 0:
+        return pd.DataFrame(), pd.DataFrame(), {}
+
+    # Calcul Z-score
+    z_scores = (df[numeric_cols] - df[numeric_cols].mean()) / df[numeric_cols].std()
+    z_scores_abs = z_scores.abs()
+
+    # Masque des outliers
+    outlier_mask = z_scores_abs > threshold
+
+    # Lignes avec au moins un outlier
+    outlier_rows = df[outlier_mask.any(axis=1)].copy()
+
+    # DataFrame avec booléen + Z-score
+    outlier_details = pd.DataFrame(index=outlier_rows.index)
+    for col in numeric_cols:
+        outlier_details[col + "_outlier"] = outlier_mask.loc[outlier_rows.index, col]
+        outlier_details[col + "_zscore"] = z_scores.loc[outlier_rows.index, col]
+
+    # Résumé par colonne
+    summary = {}
+    for col in numeric_cols:
+        count = outlier_mask[col].sum()
+        pct = (count / len(df)) * 100
+        summary[col] = {"count": count, "percent": pct}
+
+    return outlier_rows, outlier_details, summary
 
 
 def extract_cv_metrics(cv_results):
