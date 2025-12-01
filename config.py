@@ -23,6 +23,8 @@ PROCESSED_DATA_PATH = str(
 TARGET_COL = "resultat"
 SEED = 42
 
+FINAL_MODEL_NAME = "rugby_kicks_model"
+
 # ============================================================
 # 📊 Configuration d'évaluation des modèles
 # ============================================================

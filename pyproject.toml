@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "huggingface-hub>=1.1.7",
     "imbalanced-learn>=0.14.0",
     "ipykernel>=7.1.0",
     "jupyterlab>=4.4.10",

@@ -228,7 +228,88 @@ Spécificités:
 
 ---
 
-## 🔍 Configuration (config.py)
+## 🔐 Configuration des variables d'environnement
+
+### Fichier `.env`
+
+Le projet utilise des variables d'environnement pour les configurations sensibles (tokens, chemins, etc.).
+
+#### Créer le fichier `.env`
+
+```bash
+cp .env.example .env
+```
+
+Puis remplir les variables selon vos besoins.
+
+#### Variables disponibles
+
+| Variable               | Description                             | Exemple                                        |
+| ---------------------- | --------------------------------------- | ---------------------------------------------- |
+| `PROJECT_ROOT`         | Chemin racine du projet                 | `/Users/xavier/Documents/OC/OC_P6_Rugby_MLOps` |
+| `MLFLOW_TRACKING_URI`  | URI du tracking MLflow                  | `file:./mlruns`                                |
+| `MLFLOW_MODEL_NAME`    | Nom du modèle dans le Registry          | `rugby-kicks-logistic-regression`              |
+| `MLFLOW_MODEL_VERSION` | Version du modèle à publier (optionnel) | `1` ou laisser vide                            |
+| `HF_REPO_ID`           | ID du repository Hugging Face           | `XavierCoulon/rugby-kicks-model`               |
+| `HF_TOKEN`             | Token d'authentification Hugging Face   | `hf_xxxxxxxxxxxxx`                             |
+
+#### Exemple de `.env.example`
+
+Voir le fichier `.env.example` pour un template complet avec explications.
+
+---
+
+## 🚀 Publication sur Hugging Face
+
+### Prérequis
+
+1. **Créer un repository Hugging Face**:
+
+    - Aller sur https://huggingface.co/new
+    - Remplir le nom du repository
+    - Choisir "Model"
+    - Cliquer "Create repository"
+
+2. **Générer un token Hugging Face**:
+
+    - Aller sur https://huggingface.co/settings/tokens
+    - Créer un nouveau token avec permissions "write"
+    - Copier le token
+
+3. **Remplir le `.env`**:
+    ```env
+    HF_REPO_ID=
+    HF_TOKEN=
+    MLFLOW_MODEL_VERSION=
+    ```
+
+### Lancer le script de publication
+
+#### Option 1: Publier la dernière version en "Production"
+
+```bash
+# Laisser MLFLOW_MODEL_VERSION vide dans .env
+python push_model_to_huggingface.py
+```
+
+#### Option 2: Publier une version spécifique
+
+```bash
+# Remplir MLFLOW_MODEL_VERSION=1 dans .env
+python push_model_to_huggingface.py
+```
+
+### Étapes du script
+
+1. ✅ Récupère le modèle depuis MLflow (version spécifiée ou dernière en Production)
+2. ✅ Télécharge les artifacts (model, config, etc.)
+3. ✅ Publie sur Hugging Face
+
+### Résultat
+
+Le modèle est disponible sur: `https://huggingface.co/<HF_REPO_ID>`
+
+---
 
 Fichier de constantes globales:
 
