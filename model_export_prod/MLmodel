@@ -1,4 +1,4 @@
-artifact_path: file:///Users/xaviercoulon/Documents/OC/OC_P6_Rugby_MLOps/notebooks/../mlruns/806822569263782122/models/m-9b8d336436ac4b2784fdf174a6add45a/artifacts
+artifact_path: file:///Users/xaviercoulon/Documents/OC/OC_P6_Rugby_MLOps/notebooks/../mlruns/806822569263782122/models/m-a1d2eed485d345debf109b0e3f98317b/artifacts
 flavors:
   python_function:
     env:
@@ -15,27 +15,26 @@ flavors:
     sklearn_version: 1.7.2
 is_signature_from_type_hint: false
 mlflow_version: 3.5.1
-model_id: m-9b8d336436ac4b2784fdf174a6add45a
-model_size_bytes: 3451
-model_uuid: m-9b8d336436ac4b2784fdf174a6add45a
+model_id: m-a1d2eed485d345debf109b0e3f98317b
+model_size_bytes: 4022
+model_uuid: m-a1d2eed485d345debf109b0e3f98317b
 prompts: null
-run_id: 05fd352b755e40b5bcbcd8c2e72da200
+run_id: 5eb3414bce1840c6b0331f70cca567a1
 saved_input_example_info:
   artifact_path: input_example.json
   pandas_orient: split
   serving_input_path: serving_input_example.json
   type: dataframe
 signature:
-  inputs: '[{"type": "double", "name": "time_norm", "required": true}, {"type": "double",
-    "name": "distance", "required": true}, {"type": "double", "name": "angle", "required":
-    true}, {"type": "double", "name": "wind_speed", "required": true}, {"type": "double",
-    "name": "precipitation_probability", "required": true}, {"type": "double", "name":
-    "is_left_footed", "required": true}, {"type": "double", "name": "game_away", "required":
-    true}, {"type": "double", "name": "is_endgame", "required": true}, {"type": "double",
-    "name": "is_start", "required": true}, {"type": "double", "name": "is_left_side",
-    "required": true}, {"type": "double", "name": "has_previous_attempts", "required":
-    true}]'
+  inputs: '[{"type": "long", "name": "is_left_footed", "required": true}, {"type":
+    "long", "name": "game_away", "required": true}, {"type": "long", "name": "is_endgame",
+    "required": true}, {"type": "long", "name": "is_start", "required": true}, {"type":
+    "double", "name": "time_norm", "required": true}, {"type": "long", "name": "distance",
+    "required": true}, {"type": "long", "name": "angle", "required": true}, {"type":
+    "long", "name": "is_left_side", "required": true}, {"type": "long", "name": "has_previous_attempts",
+    "required": true}, {"type": "double", "name": "wind_speed", "required": true},
+    {"type": "double", "name": "precipitation_probability", "required": true}]'
   outputs: '[{"type": "long", "required": true}]'
   params: null
 type_hint_from_example: false
-utc_time_created: '2025-12-01 15:26:03.500405'
+utc_time_created: '2025-12-04 14:38:01.860652'

@@ -276,7 +276,13 @@ Voir le fichier `.env.example` pour un template complet avec explications.
     - Créer un nouveau token avec permissions "write"
     - Copier le token
 
-3. **Remplir le `.env`**:
+3. **Installer les dépendances pour la conversion ONNX** (optionnel):
+
+    ```bash
+    uv pip install skl2onnx onnx
+    ```
+
+4. **Remplir le `.env`**:
     ```env
     HF_REPO_ID=
     HF_TOKEN=
@@ -303,11 +309,48 @@ python push_model_to_huggingface.py
 
 1. ✅ Récupère le modèle depuis MLflow (version spécifiée ou dernière en Production)
 2. ✅ Télécharge les artifacts (model, config, etc.)
-3. ✅ Publie sur Hugging Face
+3. ✅ **Convertit automatiquement le modèle au format ONNX** (si `skl2onnx` est installé)
+4. ✅ Génère un README.md descriptif avec métadonnées et exemples d'utilisation
+5. ✅ Publie sur Hugging Face (modèle pickle + ONNX + README)
+
+### Formats publiés
+
+Le script publie le modèle dans **deux formats**:
+
+-   **📦 Format Pickle** (`model.pkl`): Format natif scikit-learn/MLflow
+-   **🚀 Format ONNX** (`model.onnx`): Format optimisé pour l'inférence cross-platform
+    -   Compatible avec ONNX Runtime (Python, JavaScript, C++, mobile, etc.)
+    -   Performances d'inférence optimisées
+    -   Indépendant de scikit-learn pour le déploiement
+
+### Utilisation du modèle ONNX
+
+```python
+import onnxruntime as rt
+import numpy as np
+
+# Charger le modèle ONNX
+session = rt.InferenceSession("model.onnx")
+
+# Préparer les données d'entrée
+input_data = np.array([[...]], dtype=np.float32)  # 11 features
+
+# Prédiction
+outputs = session.run(None, {"X": input_data})
+prediction = outputs[0]  # Classe prédite
+probabilities = outputs[1]  # Probabilités
+```
 
 ### Résultat
 
 Le modèle est disponible sur: `https://huggingface.co/<HF_REPO_ID>`
+
+Fichiers publiés:
+
+-   `model.pkl` - Modèle scikit-learn
+-   `model.onnx` - Modèle ONNX optimisé
+-   `README.md` - Documentation complète avec exemples
+-   Autres artifacts MLflow (configs, etc.)
 
 ---
 
